@@ -2,7 +2,7 @@ package com.jt.backend.dto_models;
 
 public class ConsultaDto {
 	private String placa;
-	private String fechaCunsulta;
+	private String fechaConsulta;
 	private String fechaConsultada;
 	
 	
@@ -12,11 +12,11 @@ public class ConsultaDto {
 	public void setPlaca(String placa) {
 		this.placa = placa;
 	}
-	public String getFechaCunsulta() {
-		return fechaCunsulta;
+	public String getFechaConsulta() {
+		return fechaConsulta;
 	}
-	public void setFechaCunsulta(String fechaCunsulta) {
-		this.fechaCunsulta = fechaCunsulta;
+	public void setFechaConsulta(String fechaCunsulta) {
+		this.fechaConsulta = fechaCunsulta;
 	}
 	public String getFechaConsultada() {
 		return fechaConsultada;

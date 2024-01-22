@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public class Consulta {
 	private int idConsulta;
 	private String placa;
-	private LocalDateTime fechaConsulta;
-	private LocalDateTime fechaConsultada;
+	private LocalDateTime fechaConsulta; //Actual
+	private LocalDateTime fechaConsultada; //Dia en la que se requiere validar pico y placa
 	private Boolean circula;
 	
 	
