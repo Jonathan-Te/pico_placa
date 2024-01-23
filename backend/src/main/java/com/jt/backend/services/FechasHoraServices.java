@@ -40,7 +40,7 @@ public class FechasHoraServices {
 		
 		
 		
-		Date nuevo=new Date(anio,mes-1,dia,hora,minuto);
+		Date nuevo=new Date(anio-1900,mes-1,dia,hora,minuto);
 		
 		System.out.print("dia de la semana"+nuevo.getDay());
 		
