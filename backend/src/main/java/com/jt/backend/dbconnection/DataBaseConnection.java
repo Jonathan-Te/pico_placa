@@ -8,7 +8,7 @@ public class DataBaseConnection {
 	public static Connection getConnection() {
         Connection connection = null;
         try {
-            String url = "jdbc:mysql://localhost:3306/picoplaca";
+            String url = "jdbc:mysql://localhost:3306/RestriccionVehicular";
             String username = "root";
             String password = "root";
             connection = DriverManager.getConnection(url, username, password);
@@ -20,3 +20,18 @@ public class DataBaseConnection {
     }
 	
 }
+
+
+/*
+ * Base de datos alojada en docker
+ * 
+ * nombre:picoplaca_mysql_db
+ * crear:
+ * docker run -p 3306 --name picoplaca_mysql_db -e MYSQL_ROOT_PASSWORD=root
+ * abrir el bash del docker:
+ * docker exec -it picoplaca_mysql_db bash
+ * 
+ * 
+ *
+ * */
+ 

@@ -4,50 +4,45 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import com.jt.backend.dbconnection.DataBaseConnection;
+import com.jt.backend.models.Dia;
+import com.jt.backend.models.DiaHorario;
+import com.jt.backend.repositories.DiaHorarioRepository;
 
 public abstract class ValidacionServices {
 	
-	public static String validarAntesHoy() {
-		Connection connection = DataBaseConnection.getConnection();
-		 try {
-	            // Your database operations here...
-			 String query = "SELECT * FROM dia";
-
-		      // create the java statement
-		      Statement st = connection.createStatement();
-		      
-		      // execute the query, and get a java resultset
-		      ResultSet rs = st.executeQuery(query);
-		      
-		      // iterate through the java resultset
-		      while (rs.next())
-		      {
-		        int id = rs.getInt("id");
-		        String nombre = rs.getString("nombre");
-		        String restriccion = rs.getString("restriccion");
-		        
-		        
-		        // print the results
-		        System.out.format("%s, %s, %s, %s, %s, %s\n", id, nombre, restriccion);
-		        return Integer.toString(id)+ " "+ nombre+" "+restriccion ;
-		      }
-		      st.close();
-	        } catch (SQLException e) {
-	            System.err.println("SQL error: " + e.getMessage());
-	            return "no sirve";
-	        } finally {
-	            // Close the connection when done
-	            if (connection != null) {
-	                try {
-	                    connection.close();
-	                } catch (SQLException e) {
-	                    System.err.println("Error closing connection: " + e.getMessage());
-	                }
-	            }
-	            return "cerrado";
-	        }
+	public static boolean validarCirculacion(String placa, Date fechaConsultada) {
 		
+		//consultar el dia, horario y placas en restriccion para el dia consultado.
+		if (fechaConsultada.getDay() > 0 && fechaConsultada.getDay() < 6) {
+			
+			Object diaHorario = DiaHorarioRepository.contultarDiaHorario(fechaConsultada.getDay());
+			
+			if (diaHorario instanceof String) {
+				System.out.print("Herror base de datos");
+				return false;
+			}
+			else {
+				DiaHorario diaHorarioCast = (DiaHorario) diaHorario;
+				return validarFechaPlaca( placa.substring(placa.length()), diaHorarioCast.getDia());
+			}
+			
+			
+			
+		}
+		
+		else {
+			
+			return true;//Sabado y domingo si hay circulacion
+		}
+		
+	}
+	public static boolean validarFechaPlaca (String ulitmoDigito,Dia dia) {
+		if (dia.getPlacasRestriccion().contains(ulitmoDigito))
+			return false;
+		else		
+			return true;
 	}
 }

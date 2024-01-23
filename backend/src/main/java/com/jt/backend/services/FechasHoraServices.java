@@ -28,16 +28,21 @@ public class FechasHoraServices {
 		
 		
 		int anio = Integer.parseInt(fechaHora.substring(0,4));
+		System.out.println("anio"+anio);
 		int mes = Integer.parseInt(fechaHora.substring(5,7));
+		System.out.println("mes"+mes);
 		int dia = Integer.parseInt(fechaHora.substring(8,10));
+		System.out.println("dia"+dia);
 		int hora = Integer.parseInt(fechaHora.substring(11,13));
+		System.out.println("hora"+hora);
 		int minuto = Integer.parseInt(fechaHora.substring(14,16));
+		System.out.print("minuto"+minuto);
 		
 		
 		
-		Date nuevo=new Date(anio,mes,dia,hora,minuto);
+		Date nuevo=new Date(anio,mes-1,dia,hora,minuto);
 		
-		
+		System.out.print("dia de la semana"+nuevo.getDay());
 		
 		return nuevo;
 	} 

@@ -38,7 +38,10 @@ public class ValidacionController {
 					responseCode=HttpStatus.OK;
 					//TODO validar Placa
 					
-					return ResponseEntity.status(responseCode).body(ValidacionServices.validarAntesHoy());
+								
+					
+					
+					return ResponseEntity.status(responseCode).body(ValidacionServices.validarCirculacion(consultaDtoObj.getPlaca(),fechaConsultada));
 					
 				}
 				
