@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.jt.backend.dto_models.ConsultaDto;
+import com.jt.backend.dto_models.RespuestaDto;
 import com.jt.backend.models.Consulta;
 import com.jt.backend.services.FechasHoraServices;
 import com.jt.backend.services.ValidacionServices;
 
 
 @RestController
-
 public class ValidacionController {
 
 	@PostMapping("/validar" )
@@ -38,10 +38,13 @@ public class ValidacionController {
 					responseCode=HttpStatus.OK;
 					//TODO validar Placa
 					
-								
-					
-					
+					if (ValidacionServices.validarCirculacion(consultaDtoObj.getPlaca(),fechaConsultada).getMensaje()=="Error en base de datos") {
+						responseCode=HttpStatus.INTERNAL_SERVER_ERROR;
+						return ResponseEntity.status(responseCode).body("Error en base de datos");
+					}
+					else {	
 					return ResponseEntity.status(responseCode).body(ValidacionServices.validarCirculacion(consultaDtoObj.getPlaca(),fechaConsultada));
+					}
 					
 				}
 				
@@ -56,6 +59,7 @@ public class ValidacionController {
 			else {
 				//TODO 
 				responseCode=HttpStatus.BAD_REQUEST;
+				
 				return ResponseEntity.status(responseCode).body("Ingrese una fecha valida");
 			}
 			

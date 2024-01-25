@@ -42,7 +42,8 @@ public  class DiaHorarioRepository {
 		      }
 		      st.close();
 		      
-		      String query2 = "Select * From Horario  where id="+diaHorario.getDia().getIdHorario()+";";
+		      //String query2 = "Select * From Horario  where id="+diaHorario.getDia().getIdHorario()+";";
+		      String query2 = "Select * From Horario";
 
 		      // create the java statement
 		      Statement st2 = connection.createStatement();
