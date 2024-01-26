@@ -1,0 +1,11 @@
+.pantalla{
+    display: flex;
+    padding: 20px;
+    @media (max-width:450px) {
+        flex-direction: column;
+    }
+    .tarjeta{
+        margin: 2.5% 1%;
+
+    }
+}
