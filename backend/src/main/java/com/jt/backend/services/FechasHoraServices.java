@@ -1,4 +1,8 @@
 package com.jt.backend.services;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Date;
 
 
@@ -8,12 +12,13 @@ public class FechasHoraServices {
 		// TODO colocar en try catch para validar que me llegaron ints
 		
 		try{
-		tranformaStringToDate(fechaHora);
+		LocalDateTime.parse(fechaHora.substring(0, 23),DateTimeFormatter.ISO_LOCAL_DATE_TIME);
 			
 		return true;
 		
 		}
-		catch(Exception error) {
+		catch(DateTimeParseException e) {
+			System.out.println(e.toString());
 			return false;
 		}
 	}

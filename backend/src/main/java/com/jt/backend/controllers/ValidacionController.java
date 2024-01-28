@@ -17,6 +17,7 @@ import com.jt.backend.dto_models.RespuestaDto;
 import com.jt.backend.models.Consulta;
 import com.jt.backend.services.FechasHoraServices;
 import com.jt.backend.services.ValidacionServices;
+import com.jt.backend.services.ValidarCamposServices;
 
 
 @RestController
@@ -28,6 +29,13 @@ public class ValidacionController {
 		//FechaConsulta es la fecha es la que se efectua la consulta
 		HttpStatus responseCode = HttpStatus.ACCEPTED;
 		
+		
+		if (!ValidarCamposServices.validarPlaca(consultaDtoObj.getPlaca())) {
+			responseCode=HttpStatus.BAD_REQUEST;
+			return ResponseEntity.status(responseCode).body("Placa Invalida");
+		}
+		
+		
 		if (FechasHoraServices.validarFecha(consultaDtoObj.getFechaConsulta())) {
 			Date fechaConsulta = new Date();
 			fechaConsulta=FechasHoraServices.tranformaStringToDate(consultaDtoObj.getFechaConsulta());
@@ -38,7 +46,7 @@ public class ValidacionController {
 			
 				if ( FechasHoraServices.compararFechas(fechaConsulta, fechaConsultada)) {
 					responseCode=HttpStatus.OK;
-					//TODO validar Placa
+					
 					
 					if (ValidacionServices.validarCirculacion(consultaDtoObj.getPlaca(),fechaConsultada).getMensaje()=="Error en base de datos") {
 						responseCode=HttpStatus.INTERNAL_SERVER_ERROR;
@@ -68,7 +76,6 @@ public class ValidacionController {
 		
 		}
 		else {
-			//TODO NO es una fecha valida el fecha Consulta 
 			responseCode=HttpStatus.BAD_REQUEST;
 			return ResponseEntity.status(responseCode).body("Verifique la fecha del sistema");
 		}

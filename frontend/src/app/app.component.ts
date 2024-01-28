@@ -8,6 +8,7 @@ import { InputMaskModule } from 'primeng/inputmask';
 import { FormsModule } from '@angular/forms';
 import { ValidationRequest } from './models/validationRequest.model';
 import { ValidationService } from './services/validation.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ import { ValidationService } from './services/validation.service';
   styleUrl: './app.component.scss'
 })
 export class AppComponent implements OnInit {
-  constructor(public validationService: ValidationService) { }
+  constructor(public validationService: ValidationService, private messageService: MessageService) { }
   title = 'frontend';
   horarios: any=[
     {
@@ -71,6 +72,9 @@ export class AppComponent implements OnInit {
     this.validationRequest.placa="";
     this.fecha="";
     this.hora="";
+  }
+  mostrarMensaje(){
+    
   }
 
 
