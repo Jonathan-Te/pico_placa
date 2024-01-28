@@ -2,7 +2,7 @@ package com.jt.backend.models;
 
 import java.time.LocalDateTime;
 
-public class Consulta {
+public class Consulta { //esto es para el historial
 	private int idConsulta;
 	private String placa;
 	private LocalDateTime fechaConsulta; //Actual
