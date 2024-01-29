@@ -1,40 +1,46 @@
 <div class="pantalla">
     <div class="tarjeta">
         <p-toast></p-toast>
-        <p-card header="Validación de Pico y Placa">
-            <span class="p-float-label">
-                <p-inputMask id="placa" mask="aaa-9999" [(ngModel)]="validationRequest.placa" placeholder="AAA-9999"
-                    [style]="{'text-transform': 'uppercase'}"></p-inputMask>
-                <label for="placa">Placa:</label>
-            </span>
-            <span class="p-float-label">
-                <p-inputMask id="fecha" [(ngModel)]="fecha" mask="9999-99-99" placeholder="yyyy-mm-dd"
-                    slotChar="yyyy-mm-dd"></p-inputMask>
-                <label for="fecha">Fecha:</label>
-            </span>
-            <span class="p-float-label">
-                <p-inputMask id="hora" [(ngModel)]="hora" mask="99:99" placeholder="hh:mm"
-                    slotChar="hh:mm"></p-inputMask>
-                <label for="hora">Hora:</label>
-            </span>
+        <p-card header="Validación de Pico y Placa" >
+            <div class="camposPF" >
+                <span class="p-float-label">
+                    <p-inputMask id="placa" mask="aaa-9999" [(ngModel)]="validationRequest.placa" placeholder="AAA-9999"
+                        [style]="{'text-transform': 'uppercase'}"></p-inputMask>
+                    <label for="placa">Placa:</label>
+                </span>
+                <span class="p-float-label">
+                    <p-inputMask id="fecha" [(ngModel)]="fecha" mask="9999-99-99" placeholder="yyyy-mm-dd"
+                        slotChar="yyyy-mm-dd"></p-inputMask>
+                    <label for="fecha">Fecha:</label>
+                </span>
+                <span class="p-float-label">
+                    <p-inputMask id="hora" [(ngModel)]="hora" mask="99:99" placeholder="hh:mm"
+                        slotChar="hh:mm"></p-inputMask>
+                    <label for="hora">Hora:</label>
+                </span>
+            </div>
+            
             <ng-template pTemplate="footer">
-                <p-button label="Validar" icon="pi pi-check" (onClick)="validarCirculacion()">
-
-                </p-button>
-                <p-button label="Limpiar" icon="pi pi-times" (onClick)="limpiarCampos()" styleClass="p-button-secondary"
-                    [style]="{ 'margin-left': '.5em' }">
-                </p-button>
+                <div class="footerBotones">
+                    <button class="btn btn-primary"  (click)="validarCirculacion()">
+                        Validar
+                    </button>
+                    <button class="btn btn-secondary" label="Limpiar" (click)="limpiarCampos()" >
+                        Limpiar
+                    </button>
+                </div>
+                
             </ng-template>
         </p-card>
     </div>
 
     <div class="tarjeta">
-        <p-card header="Historial de Consultas" [style]="{ width: '360px'}">
+        <p-card header="Historial de Consultas" >
             <p class="m-0">
                 <p-table [value]="listaHitorial" [tableStyle]="{ 'min-width': '50rem' }">
 
                     <ng-template pTemplate="header">
-                        <tr>
+                        <tr class="headerTabla">
                             <th>Placa</th>
                             <th>Fecha Validada</th>
                             <th>Circula</th>
@@ -42,10 +48,10 @@
                         </tr>
                     </ng-template>
                     <ng-template pTemplate="body" let-consulta>
-                        <tr>
+                        <tr class="bodyTabla">
                             <td>{{ consulta.placa}}</td>  
                             <td>{{ consulta.fechaConsultada }}</td>
-                            <td>{{ consulta.circula? "SI":"NO"}}</td>
+                            <td class='btn' [ngClass]="{'btn-success':consulta.circula,'btn-danger':!consulta.circula}">{{ consulta.circula? "SI":"NO"}}</td>
                             <td>{{ consulta.fechaConsulta }}</td>
                         </tr>
                     </ng-template>
@@ -57,15 +63,20 @@
 
 
 <p-dialog header="Validación realizada" [(visible)]="mostrarMernsaje" [style]="{width: '50vw'}" [closable]="false" [closeOnEscape]="false">
-    <p>
+    <p class='btn dialogo' [ngClass]="{'btn-success':validationResponse.circula,'btn-danger':!validationResponse.circula}">
         {{validationResponse.circula? "Puede Circular":"NO Puede Circular"}}
     </p>
     <p [innerHTML]="validationResponse.mensaje"> 
     </p>
-    <p-button label="Aceptar" icon="pi pi-check" (onClick)="limpiarCamposSinMensaje();ocultarMostrarMensaje()">
-
-    </p-button>
-    <p-button label="Corregir" icon="pi pi-times" (onClick)="ocultarMostrarMensaje()" styleClass="p-button-secondary"
-        [style]="{ 'margin-left': '.5em' }">
-    </p-button>
+    <div class="footerBotones">
+        <button class="btn btn-primary"  (click)="limpiarCamposSinMensaje();ocultarMostrarMensaje()">
+            Aceptar
+        </button>
+        <button class="btn btn-secondary" (click)="ocultarMostrarMensaje()" >
+            Corregir
+        </button>           
+            
+       
+    </div>
+    
 </p-dialog>
