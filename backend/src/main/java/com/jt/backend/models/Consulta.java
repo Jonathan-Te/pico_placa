@@ -8,8 +8,7 @@ public class Consulta { //esto es para el historial
 	private String fechaConsulta; //Actual
 	private String fechaConsultada; //Dia en la que se requiere validar pico y placa
 	private Boolean circula;
-	
-	
+		
 	public int getIdConsulta() {
 		return idConsulta;
 	}

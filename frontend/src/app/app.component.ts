@@ -12,6 +12,7 @@ import { MessageService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { DialogModule } from 'primeng/dialog';
 import { ValidationResponse } from './models/validationResponse.model';
+import { HistorialResponse } from './models/historialResponse.model';
 
 @Component({
   selector: 'app-root',
@@ -48,9 +49,23 @@ export class AppComponent implements OnInit {
   fecha: string = "";
   hora: string = "";
 
+  //listaHitorial: any[]=[];
+  listaHitorial: Array<HistorialResponse>=[];
 
   ngOnInit(): void {
+    this.consultarHistorial();
+  }
 
+  consultarHistorial(){
+    this.validationService.consultarHistorial().subscribe(
+      (response:any)=>{
+        this.listaHitorial=response;
+      },
+      (error: any)=>{
+        this.listaHitorial=[];
+        this.messageService.add({ severity: 'error', summary: 'Alerta', detail: 'Ha ocurrido un error interno en la consulta del historial' });
+      }
+    )
   }
 
   validarCirculacion() {
@@ -61,6 +76,7 @@ export class AppComponent implements OnInit {
         console.log(response);
         this.validationResponse.circula = response.circula;
         this.validationResponse.mensaje = response.mensaje;
+        this.consultarHistorial();
         this.ocultarMostrarMensaje();
 
       },
@@ -70,7 +86,7 @@ export class AppComponent implements OnInit {
           this.messageService.add({ severity: 'warn', summary: 'Alerta', detail: error.error });
         }
         else {
-          this.messageService.add({ severity: 'error', summary: 'Alerta', detail: 'Ha ocurrido un error inesperado' });
+          this.messageService.add({ severity: 'error', summary: 'Alerta', detail: 'Ha ocurrido un error interno ejecutando la validación.' });
         }
 
 
@@ -80,6 +96,8 @@ export class AppComponent implements OnInit {
       }
     )
   }
+
+  
   unirCampos() {
     //this.validationRequest.fechaConsultada=this.fecha+ " "+this.hora;
     this.validationRequest.fechaConsultada = `${this.fecha}T${this.hora}:00.000Z`;

@@ -7,6 +7,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.jt.backend.dto_models.ConsultaDto;
 import com.jt.backend.dto_models.RespuestaDto;
 import com.jt.backend.models.Consulta;
+import com.jt.backend.repositories.ConsultaRepository;
 import com.jt.backend.services.FechasHoraServices;
 import com.jt.backend.services.ValidacionServices;
 import com.jt.backend.services.ValidarCamposServices;
@@ -86,6 +88,13 @@ public class ValidacionController {
 		
 		
 		
+	}
+	
+	
+	@GetMapping("/historial" )
+	public ResponseEntity<?> obtenerHistorialConsultas() {
+		
+		return ResponseEntity.status(HttpStatus.OK).body(ConsultaRepository.consultarHistorialConsultas());
 	}
 	
 }

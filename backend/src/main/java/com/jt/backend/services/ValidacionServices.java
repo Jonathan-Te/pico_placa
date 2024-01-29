@@ -13,12 +13,13 @@ import com.jt.backend.models.Consulta;
 import com.jt.backend.models.Dia;
 import com.jt.backend.models.DiaHorario;
 import com.jt.backend.models.Horario;
+import com.jt.backend.repositories.ConsultaRepository;
 import com.jt.backend.repositories.DiaHorarioRepository;
 
 public abstract class ValidacionServices {
 	
 	public static RespuestaDto validarCirculacion(String placa, Date fechaConsultada, Date fechaConsulta) {
-		
+		Consulta consulta=new Consulta();
 		RespuestaDto respuestaDto =new RespuestaDto();
 		//consultar el dia, horario y placas en restriccion para el dia consultado.
 		if (fechaConsultada.getDay() > 0 && fechaConsultada.getDay() < 6) {
@@ -46,7 +47,12 @@ public abstract class ValidacionServices {
 		
 		else {
 			respuestaDto.setCircula(true);
-			respuestaDto.setMensaje("El día "+formatoFecha(fechaConsultada) +"es fin de semana, No hay restricción vechicular");
+			respuestaDto.setMensaje("El día "+formatoFecha(fechaConsultada) +" es fin de semana, No hay restricción vechicular");
+			consulta.setPlaca(placa);
+			consulta.setFechaConsulta(formatoFechaBaseDatos(fechaConsulta));
+			consulta.setFechaConsultada(formatoFechaBaseDatos(fechaConsultada));
+			consulta.setCircula(true);
+			ConsultaRepository.guardarConsulta(consulta);
 			return respuestaDto;//Sabado y domingo si hay circulacion
 		}
 		
@@ -71,7 +77,7 @@ public abstract class ValidacionServices {
 					consulta.setFechaConsulta(formatoFechaBaseDatos(fechaConsulta));
 					consulta.setFechaConsultada(formatoFechaBaseDatos(fechaConsultada));
 					consulta.setCircula(false);
-					DiaHorarioRepository.guardarConsulta(consulta);
+					ConsultaRepository.guardarConsulta(consulta);
 					return respuestaDto;
 				}
 				else {
@@ -84,7 +90,7 @@ public abstract class ValidacionServices {
 			consulta.setFechaConsulta(formatoFechaBaseDatos(fechaConsulta));
 			consulta.setFechaConsultada(formatoFechaBaseDatos(fechaConsultada));
 			consulta.setCircula(true);
-			DiaHorarioRepository.guardarConsulta(consulta);
+			ConsultaRepository.guardarConsulta(consulta);
 			return respuestaDto;
 		}
 					
@@ -95,7 +101,7 @@ public abstract class ValidacionServices {
 			consulta.setFechaConsulta(formatoFechaBaseDatos(fechaConsulta));
 			consulta.setFechaConsultada(formatoFechaBaseDatos(fechaConsultada));
 			consulta.setCircula(true);
-			DiaHorarioRepository.guardarConsulta(consulta);
+			ConsultaRepository.guardarConsulta(consulta);
 			
 			return respuestaDto;
 		}		

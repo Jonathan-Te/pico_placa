@@ -27,28 +27,26 @@
             </ng-template>
         </p-card>
     </div>
-    
+
     <div class="tarjeta">
-        <p-card header="Title" [style]="{ width: '360px'}">
+        <p-card header="Historial de Consultas" [style]="{ width: '360px'}">
             <p class="m-0">
-                <p-table [value]="horarios" [tableStyle]="{ 'min-width': '50rem' }">
+                <p-table [value]="listaHitorial" [tableStyle]="{ 'min-width': '50rem' }">
 
                     <ng-template pTemplate="header">
                         <tr>
-                            <th>Numero</th>
-                            <th>Dia</th>
-                            <th>Hora Inicio</th>
-                            <th>Hora Fin</th>
-                            <th>Placa Restriccion</th>
+                            <th>Placa</th>
+                            <th>Fecha Validada</th>
+                            <th>Circula</th>
+                            <th>Fecha Consulta</th>
                         </tr>
                     </ng-template>
-                    <ng-template pTemplate="body" let-horario>
+                    <ng-template pTemplate="body" let-consulta>
                         <tr>
-                            <td>{{ horario.numero }}</td>
-                            <td>{{ horario.dia}}</td>
-                            <td>{{ horario.horaInicio }}</td>
-                            <td>{{ horario.horaFin }}</td>
-                            <td>{{ horario.placaRes }}</td>
+                            <td>{{ consulta.placa}}</td>  
+                            <td>{{ consulta.fechaConsultada }}</td>
+                            <td>{{ consulta.circula? "SI":"NO"}}</td>
+                            <td>{{ consulta.fechaConsulta }}</td>
                         </tr>
                     </ng-template>
                 </p-table>
@@ -58,13 +56,11 @@
 </div>
 
 
-<p-dialog header="Header" [(visible)]="mostrarMernsaje" [style]="{width: '50vw'}">
+<p-dialog header="Validación realizada" [(visible)]="mostrarMernsaje" [style]="{width: '50vw'}" [closable]="false" [closeOnEscape]="false">
     <p>
-        {{validationResponse.circula}}
+        {{validationResponse.circula? "Puede Circular":"NO Puede Circular"}}
     </p>
-    <br>
-    <p [innerHTML]="validationResponse.mensaje">
-        
+    <p [innerHTML]="validationResponse.mensaje"> 
     </p>
     <p-button label="Aceptar" icon="pi pi-check" (onClick)="limpiarCamposSinMensaje();ocultarMostrarMensaje()">
 

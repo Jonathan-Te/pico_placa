@@ -83,31 +83,5 @@ public class DiaHorarioRepository {
 
 	}
 
-	public static boolean guardarConsulta(Consulta consulta) {
-
-		Connection connection = DataBaseConnection.getConnection();
-		try {
-			// Your database operations here...
-			String query = "Insert into Consulta (placa,fechaConsulta,fechaConsultada,puedeCircular) values ('"
-					+ consulta.getPlaca() + "','" + consulta.getFechaConsulta() + "','" + consulta.getFechaConsultada()
-					+ "'," + consulta.getCircula() + ");";
-
-			// create the java statement
-			Statement st = connection.createStatement();
-			System.out.println(query);
-
-			// execute the query, and get a java resultset
-			st.executeUpdate(query);
-
-			// iterate through the java resultset
-			
-			st.close();
-			return true;
-		} catch (SQLException e) {
-			System.err.println("SQL error: " + e.getMessage());
-			return false;
-		}
-
-		
-	}
+	
 }

@@ -15,4 +15,9 @@ export class ValidationService {
         return this.httpClient.post(url, validationRequest);
 
     }
+
+    consultarHistorial(): Observable<Object>{
+        const url: string = "http://localhost:8080/historial";
+        return  this.httpClient.get(url);
+    }
 }
