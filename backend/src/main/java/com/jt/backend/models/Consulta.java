@@ -5,8 +5,8 @@ import java.time.LocalDateTime;
 public class Consulta { //esto es para el historial
 	private int idConsulta;
 	private String placa;
-	private LocalDateTime fechaConsulta; //Actual
-	private LocalDateTime fechaConsultada; //Dia en la que se requiere validar pico y placa
+	private String fechaConsulta; //Actual
+	private String fechaConsultada; //Dia en la que se requiere validar pico y placa
 	private Boolean circula;
 	
 	
@@ -22,16 +22,16 @@ public class Consulta { //esto es para el historial
 	public void setPlaca(String placa) {
 		this.placa = placa;
 	}
-	public LocalDateTime getFechaConsulta() {
+	public String getFechaConsulta() {
 		return fechaConsulta;
 	}
-	public void setFechaConsulta(LocalDateTime fechaConsulta) {
+	public void setFechaConsulta(String fechaConsulta) {
 		this.fechaConsulta = fechaConsulta;
 	}
-	public LocalDateTime getFechaConsultada() {
+	public String getFechaConsultada() {
 		return fechaConsultada;
 	}
-	public void setFechaConsultada(LocalDateTime fechaConsultada) {
+	public void setFechaConsultada(String fechaConsultada) {
 		this.fechaConsultada = fechaConsultada;
 	}
 	public Boolean getCircula() {

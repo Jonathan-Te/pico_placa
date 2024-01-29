@@ -10,7 +10,7 @@ public class ConsultaDto {
 		return placa;
 	}
 	public void setPlaca(String placa) {
-		this.placa = placa;
+		this.placa = placa.toUpperCase();
 	}
 	public String getFechaConsulta() {
 		return fechaConsulta;

@@ -1,35 +1,6 @@
 <div class="pantalla">
     <div class="tarjeta">
-        <p-card header="Advanced Card" subheader="Card Subheader" [style]="{ width: '360px' }">
-            <ng-template pTemplate="header">
-                <img alt="Card" src="https://primefaces.org/cdn/primeng/images/usercard.png" />
-            </ng-template>
-            <p-table [value]="horarios" [tableStyle]="{ 'min-width': '50rem' }">
-
-                <ng-template pTemplate="header">
-                    <tr>
-                        <th>Numero</th>
-                        <th>Dia</th>
-                        <th>Hora Inicio</th>
-                        <th>Hora Fin</th>
-                        <th>Placa Restriccion</th>
-                    </tr>
-                </ng-template>
-                <ng-template pTemplate="body" let-horario>
-                    <tr>
-                        <td>{{ horario.numero }}</td>
-                        <td>{{ horario.dia}}</td>
-                        <td>{{ horario.horaInicio }}</td>
-                        <td>{{ horario.horaFin }}</td>
-                        <td>{{ horario.placaRes }}</td>
-                    </tr>
-                </ng-template>
-            </p-table>
-
-        </p-card>
-
-    </div>
-    <div class="tarjeta">
+        <p-toast></p-toast>
         <p-card header="Validación de Pico y Placa">
             <span class="p-float-label">
                 <p-inputMask id="placa" mask="aaa-9999" [(ngModel)]="validationRequest.placa" placeholder="AAA-9999"
@@ -51,12 +22,14 @@
 
                 </p-button>
                 <p-button label="Limpiar" icon="pi pi-times" (onClick)="limpiarCampos()" styleClass="p-button-secondary"
-                    [style]="{ 'margin-left': '.5em' }"></p-button>
+                    [style]="{ 'margin-left': '.5em' }">
+                </p-button>
             </ng-template>
         </p-card>
     </div>
+    
     <div class="tarjeta">
-        <p-card header="Title">
+        <p-card header="Title" [style]="{ width: '360px'}">
             <p class="m-0">
                 <p-table [value]="horarios" [tableStyle]="{ 'min-width': '50rem' }">
 
@@ -83,3 +56,20 @@
         </p-card>
     </div>
 </div>
+
+
+<p-dialog header="Header" [(visible)]="mostrarMernsaje" [style]="{width: '50vw'}">
+    <p>
+        {{validationResponse.circula}}
+    </p>
+    <br>
+    <p [innerHTML]="validationResponse.mensaje">
+        
+    </p>
+    <p-button label="Aceptar" icon="pi pi-check" (onClick)="limpiarCamposSinMensaje();ocultarMostrarMensaje()">
+
+    </p-button>
+    <p-button label="Corregir" icon="pi pi-times" (onClick)="ocultarMostrarMensaje()" styleClass="p-button-secondary"
+        [style]="{ 'margin-left': '.5em' }">
+    </p-button>
+</p-dialog>

@@ -9,6 +9,7 @@ import java.util.Date;
 
 import com.jt.backend.dbconnection.DataBaseConnection;
 import com.jt.backend.dto_models.RespuestaDto;
+import com.jt.backend.models.Consulta;
 import com.jt.backend.models.Dia;
 import com.jt.backend.models.DiaHorario;
 import com.jt.backend.models.Horario;
@@ -16,7 +17,7 @@ import com.jt.backend.repositories.DiaHorarioRepository;
 
 public abstract class ValidacionServices {
 	
-	public static RespuestaDto validarCirculacion(String placa, Date fechaConsultada) {
+	public static RespuestaDto validarCirculacion(String placa, Date fechaConsultada, Date fechaConsulta) {
 		
 		RespuestaDto respuestaDto =new RespuestaDto();
 		//consultar el dia, horario y placas en restriccion para el dia consultado.
@@ -34,7 +35,7 @@ public abstract class ValidacionServices {
 			else {
 				DiaHorario diaHorarioCast = (DiaHorario) diaHorario;
 				System.out.println("Funcion validar circulacion diaHorario "+ diaHorarioCast.getDia().getNombreDia());
-				return validarFechaPlaca( placa.substring(placa.length()-1), diaHorarioCast,fechaConsultada);
+				return validarFechaPlaca( placa, diaHorarioCast,fechaConsultada,fechaConsulta);
 				
 				
 			}
@@ -45,14 +46,17 @@ public abstract class ValidacionServices {
 		
 		else {
 			respuestaDto.setCircula(true);
-			respuestaDto.setMensaje("Dia consultado es fin de semana");
+			respuestaDto.setMensaje("El día "+formatoFecha(fechaConsultada) +"es fin de semana, No hay restricción vechicular");
 			return respuestaDto;//Sabado y domingo si hay circulacion
 		}
 		
 	}
-	public static RespuestaDto validarFechaPlaca (String ulitmoDigito,DiaHorario diaHorario, Date fechaConsultada) {
+	public static RespuestaDto validarFechaPlaca (String placa,DiaHorario diaHorario, Date fechaConsultada, Date fechaConsulta) {
+		String ulitmoDigito=placa.substring(placa.length()-1);
 		System.out.println("Funcion validar fecha Placa ultimo digito"+ ulitmoDigito +"get placa restriccion"+ diaHorario.getDia().getPlacasRestriccion());
 		RespuestaDto respuestaDto =new RespuestaDto();
+		String respuestaStr="<br>"; 
+		Consulta consulta=new Consulta();
 		if (diaHorario.getDia().getPlacasRestriccion().contains(ulitmoDigito)) {
 			System.out.println(diaHorario.getHorarioList().size());
 			
@@ -61,19 +65,38 @@ public abstract class ValidacionServices {
 				Date fechaFin=new Date(fechaConsultada.getYear(),fechaConsultada.getMonth(),fechaConsultada.getDate(),horario.getHoraFin().getHours(),horario.getHoraFin().getMinutes());
 				if (fechaConsultada.after(fechaInicio) && fechaConsultada.before(fechaFin)) {
 					respuestaDto.setCircula(false);
-					respuestaDto.setMensaje("No circula en "+formatoFecha(fechaConsultada)+". Se encuentra entre "+formatoFecha(fechaInicio)+" y "+ formatoFecha(fechaFin));
+					respuestaDto.setMensaje("La placa: " +placa+" NO circula el " + diaHorario.getDia().getNombreDia()+", "+formatoFecha(fechaConsultada)+". <br>Se encuentra entre: <br>"+formatoFecha(fechaInicio)+" - "+ formatoFecha(fechaFin));
 					System.out.println(respuestaDto.getMensaje());
+					consulta.setPlaca(placa);
+					consulta.setFechaConsulta(formatoFechaBaseDatos(fechaConsulta));
+					consulta.setFechaConsultada(formatoFechaBaseDatos(fechaConsultada));
+					consulta.setCircula(false);
+					DiaHorarioRepository.guardarConsulta(consulta);
 					return respuestaDto;
+				}
+				else {
+					respuestaStr=respuestaStr+formatoFecha(fechaInicio)+" - "+ formatoFecha(fechaFin)+"<br>";
 				}
 			}
 			respuestaDto.setCircula(true);
-			respuestaDto.setMensaje("Fuera de Horario de Restriccion");
+			respuestaDto.setMensaje("La placa " +placa+ " tiene restricción el día "+ diaHorario.getDia().getNombreDia()+", fuera de los horario de restricción: "+ respuestaStr);
+			consulta.setPlaca(placa);
+			consulta.setFechaConsulta(formatoFechaBaseDatos(fechaConsulta));
+			consulta.setFechaConsultada(formatoFechaBaseDatos(fechaConsultada));
+			consulta.setCircula(true);
+			DiaHorarioRepository.guardarConsulta(consulta);
 			return respuestaDto;
 		}
 					
 		else {
 			respuestaDto.setCircula(true);
-			respuestaDto.setMensaje("Fuera de Dias de Restriccion");
+			respuestaDto.setMensaje("La placa " +placa+ " NO tiene restricción el día "+ diaHorario.getDia().getNombreDia()+", "+formatoFecha(fechaConsultada));
+			consulta.setPlaca(placa);
+			consulta.setFechaConsulta(formatoFechaBaseDatos(fechaConsulta));
+			consulta.setFechaConsultada(formatoFechaBaseDatos(fechaConsultada));
+			consulta.setCircula(true);
+			DiaHorarioRepository.guardarConsulta(consulta);
+			
 			return respuestaDto;
 		}		
 			
@@ -81,6 +104,13 @@ public abstract class ValidacionServices {
 	public static String formatoFecha(Date fecha) {
 		
 		SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy HH:mm");    
+        String fechaFormateada = formato.format(fecha);
+		return fechaFormateada;
+	}
+	
+public static String formatoFechaBaseDatos(Date fecha) {
+		
+	SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");    
         String fechaFormateada = formato.format(fecha);
 		return fechaFormateada;
 	}

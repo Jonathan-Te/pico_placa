@@ -38,22 +38,23 @@ public class ValidacionController {
 		
 		if (FechasHoraServices.validarFecha(consultaDtoObj.getFechaConsulta())) {
 			Date fechaConsulta = new Date();
-			fechaConsulta=FechasHoraServices.tranformaStringToDate(consultaDtoObj.getFechaConsulta());
+			fechaConsulta=FechasHoraServices.tranformaStringToDateConsulta(consultaDtoObj.getFechaConsulta());
 			//Fecha consultada es la fecha en la que se requiere conocer si se puede circular con dicha placa.
 			Date fechaConsultada = new Date();
 			if (FechasHoraServices.validarFecha(consultaDtoObj.getFechaConsultada())) {
 				fechaConsultada=FechasHoraServices.tranformaStringToDate(consultaDtoObj.getFechaConsultada());
+				
 			
 				if ( FechasHoraServices.compararFechas(fechaConsulta, fechaConsultada)) {
 					responseCode=HttpStatus.OK;
 					
-					
-					if (ValidacionServices.validarCirculacion(consultaDtoObj.getPlaca(),fechaConsultada).getMensaje()=="Error en base de datos") {
+					Object serviceResult= ValidacionServices.validarCirculacion(consultaDtoObj.getPlaca(),fechaConsultada,fechaConsulta);
+					if (((RespuestaDto) serviceResult).getMensaje()=="Error en base de datos") {
 						responseCode=HttpStatus.INTERNAL_SERVER_ERROR;
 						return ResponseEntity.status(responseCode).body("Error en base de datos");
 					}
 					else {	
-					return ResponseEntity.status(responseCode).body(ValidacionServices.validarCirculacion(consultaDtoObj.getPlaca(),fechaConsultada));
+					return ResponseEntity.status(responseCode).body(serviceResult);
 					}
 					
 				}
@@ -67,7 +68,7 @@ public class ValidacionController {
 			
 			}
 			else {
-				//TODO 
+				
 				responseCode=HttpStatus.BAD_REQUEST;
 				
 				return ResponseEntity.status(responseCode).body("Ingrese una fecha valida");
