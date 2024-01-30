@@ -1,16 +1,18 @@
 # pico_placa
-Evaluación Grupo Advance Latam.
+##Evaluación Grupo Advance Latam.
 
 
-## requisitos para ejecutar el proyecto.
+# Requisitos para ejecutar el proyecto.
 
 
 ### Frontend
 
 Node version
+
     * 20.10.0 (Currently using 64-bit executable)
 
 Angular
+
     angular/cli": "^17.0.8"
 
 
@@ -19,7 +21,9 @@ Angular
 ### Backend
 
 java version "17.0.9" 2023-10-17 LTS
+
 Java(TM) SE Runtime Environment (build 17.0.9+11-LTS-201)
+
 Java HotSpot(TM) 64-Bit Server VM (build 17.0.9+11-LTS-201, mixed mode, sharing)
 
 
@@ -46,24 +50,30 @@ Docker version 20.10.21, build baeda1f
 ## Como ejecutar.
 
 Crear la base de datos con el archivo CreacioBD.mysql.
-    1. Descargar la imagen para el contenedor.
+1. Descargar la imagen para el contenedor.
+   
         docker pull mysql
-    2. Crear el contenedor mysql
+3. Crear el contenedor mysql
+
         docker run -p 3306 --name picoplaca_mysql_db -e MYSQL_ROOT_PASSWORD=root -d mysql:latest
-    3. Abrir el bash del contenedor.
+5. Abrir el bash del contenedor.
+
         docker exec -it picoplaca_mysql_db bash
-    4. Entrar a mysql
+7. Entrar a mysql
+
         mysql -u root -p
         la clave es: root
-    5. Ejecutar el contenido del archivo CreacionBD.mysql.
+9. Ejecutar el contenido del archivo CreacionBD.mysql.
         Copiar y pegar el contenido.
 
-Como ejecutar SpringBoot :
-    En el directorio backend/ ejecutar el siguiente comando
+### Como ejecutar SpringBoot :
+   En el directorio backend/ ejecutar el siguiente comando
+   
         mvnw spring-boot:run
     
-Como ejecutar Angular.
-    En el direcorio froentend
+### Como ejecutar Angular.
+   En el direcorio froentend
+    
     npm i
     ng serve --open
 
