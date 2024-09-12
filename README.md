@@ -55,7 +55,7 @@ Crear la base de datos con el archivo CreacioBD.mysql.
         docker pull mysql
 3. Crear el contenedor mysql
 
-        docker run -p 3306 --name picoplaca_mysql_db -e MYSQL_ROOT_PASSWORD=root -d mysql:latest
+        docker run -p 3306:3306 --name picoplaca_mysql_db -e MYSQL_ROOT_PASSWORD=root -d mysql:latest
 5. Abrir el bash del contenedor.
 
         docker exec -it picoplaca_mysql_db bash
