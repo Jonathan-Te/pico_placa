@@ -2,6 +2,8 @@ package com.jt.backend.controllers;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ import com.jt.backend.dto_models.ConsultaDto;
 import com.jt.backend.dto_models.RespuestaDto;
 import com.jt.backend.models.Consulta;
 import com.jt.backend.repositories.ConsultaRepository;
+import com.jt.backend.repositories.ConsultasRepositoryInterface;
+import com.jt.backend.services.ConsultaServices;
 import com.jt.backend.services.FechasHoraServices;
 import com.jt.backend.services.ValidacionServices;
 import com.jt.backend.services.ValidarCamposServices;
@@ -25,32 +29,45 @@ import com.jt.backend.services.ValidarCamposServices;
 @RestController
 @CrossOrigin(origins = "*")
 public class ValidacionController {
+	
+	@Autowired
+	private ConsultasRepositoryInterface consultasRepository;
+	
+	private ValidacionServices validacionService;
+	
+	@Autowired
+	public ValidacionController(ValidacionServices validacionService){
+		this.validacionService=validacionService;
+	}
+	
 
 	@PostMapping("/validar" )
 	public ResponseEntity<?> validarPicoPlaca(@RequestBody ConsultaDto consultaDtoObj) {
 		//FechaConsulta es la fecha es la que se efectua la consulta
+		
 		HttpStatus responseCode = HttpStatus.ACCEPTED;
 		
 		
-		if (!ValidarCamposServices.validarPlaca(consultaDtoObj.getPlaca())) {
+		
+		if (!ValidarCamposServices.validarPlaca(consultaDtoObj.getPlate())) {
 			responseCode=HttpStatus.BAD_REQUEST;
 			return ResponseEntity.status(responseCode).body("Placa Invalida");
 		}
 		
 		
-		if (FechasHoraServices.validarFecha(consultaDtoObj.getFechaConsulta())) {
+		if (FechasHoraServices.validarFecha(consultaDtoObj.getQueryDate())) {
 			Date fechaConsulta = new Date();
-			fechaConsulta=FechasHoraServices.tranformaStringToDateConsulta(consultaDtoObj.getFechaConsulta());
+			fechaConsulta=FechasHoraServices.tranformaStringToDateConsulta(consultaDtoObj.getQueriedDate());
 			//Fecha consultada es la fecha en la que se requiere conocer si se puede circular con dicha placa.
 			Date fechaConsultada = new Date();
-			if (FechasHoraServices.validarFecha(consultaDtoObj.getFechaConsultada())) {
-				fechaConsultada=FechasHoraServices.tranformaStringToDate(consultaDtoObj.getFechaConsultada());
+			if (FechasHoraServices.validarFecha(consultaDtoObj.getQueriedDate())) {
+				fechaConsultada=FechasHoraServices.tranformaStringToDate(consultaDtoObj.getQueriedDate());
 				
 			
 				if ( FechasHoraServices.compararFechas(fechaConsulta, fechaConsultada)) {
 					responseCode=HttpStatus.OK;
 					
-					Object serviceResult= ValidacionServices.validarCirculacion(consultaDtoObj.getPlaca(),fechaConsultada,fechaConsulta);
+					Object serviceResult= this.validacionService.validarCirculacion(consultaDtoObj.getPlate(),fechaConsultada,fechaConsulta);
 					if (((RespuestaDto) serviceResult).getMensaje()=="Error en base de datos") {
 						responseCode=HttpStatus.INTERNAL_SERVER_ERROR;
 						return ResponseEntity.status(responseCode).body("Error en base de datos");
@@ -94,7 +111,13 @@ public class ValidacionController {
 	@GetMapping("/historial" )
 	public ResponseEntity<?> obtenerHistorialConsultas() {
 		
-		return ResponseEntity.status(HttpStatus.OK).body(ConsultaRepository.consultarHistorialConsultas());
+		
+		return ResponseEntity.status(HttpStatus.OK).body(consultasRepository.findAll());
 	}
+	
+	@GetMapping("/JPA") 
+	public String index(){
+		return "Conectado";
+	}	
 	
 }

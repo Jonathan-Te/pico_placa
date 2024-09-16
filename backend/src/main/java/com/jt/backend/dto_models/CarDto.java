@@ -1,31 +1,29 @@
 package com.jt.backend.dto_models;
 
+
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
-public class ConsultaDto {
+public class CarDto {
 	
 	@Getter
 	@Setter
-	private Long id;
+	private long id;
 	
 	@Getter
 	@Setter
-	private String queryDate;
+	private String model;
 	
 	@Getter
 	@Setter
-	private String queriedDate;
-	
-	@Getter
-	@Setter
-	private boolean allowed;
+	private String brand;
 	
 	@Getter
 	@Setter
 	private String plate;
-
 	
+	@Getter
+	@Setter
+	private String colour;
+
 }

@@ -7,6 +7,9 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.jt.backend.dbconnection.DataBaseConnection;
 import com.jt.backend.dto_models.RespuestaDto;
 import com.jt.backend.models.Consulta;
@@ -14,11 +17,18 @@ import com.jt.backend.models.Dia;
 import com.jt.backend.models.DiaHorario;
 import com.jt.backend.models.Horario;
 import com.jt.backend.repositories.ConsultaRepository;
+import com.jt.backend.repositories.ConsultasRepositoryInterface;
 import com.jt.backend.repositories.DiaHorarioRepository;
-
-public abstract class ValidacionServices {
+@Service
+public class ValidacionServices {
+	private ConsultasRepositoryInterface consultasRepo;
 	
-	public static RespuestaDto validarCirculacion(String placa, Date fechaConsultada, Date fechaConsulta) {
+	@Autowired
+	public ValidacionServices(ConsultasRepositoryInterface consultasRepo){
+		this.consultasRepo=consultasRepo;
+	}
+	
+	public RespuestaDto validarCirculacion(String placa, Date fechaConsultada, Date fechaConsulta) {
 		Consulta consulta=new Consulta();
 		RespuestaDto respuestaDto =new RespuestaDto();
 		//consultar el dia, horario y placas en restriccion para el dia consultado.
@@ -52,12 +62,13 @@ public abstract class ValidacionServices {
 			consulta.setFechaConsulta(formatoFechaBaseDatos(fechaConsulta));
 			consulta.setFechaConsultada(formatoFechaBaseDatos(fechaConsultada));
 			consulta.setCircula(true);
-			ConsultaRepository.guardarConsulta(consulta);
+			this.consultasRepo.save(consulta);
+			
 			return respuestaDto;//Sabado y domingo si hay circulacion
 		}
 		
 	}
-	public static RespuestaDto validarFechaPlaca (String placa,DiaHorario diaHorario, Date fechaConsultada, Date fechaConsulta) {
+	public  RespuestaDto validarFechaPlaca (String placa,DiaHorario diaHorario, Date fechaConsultada, Date fechaConsulta) {
 		String ulitmoDigito=placa.substring(placa.length()-1);
 		System.out.println("Funcion validar fecha Placa ultimo digito"+ ulitmoDigito +"get placa restriccion"+ diaHorario.getDia().getPlacasRestriccion());
 		RespuestaDto respuestaDto =new RespuestaDto();

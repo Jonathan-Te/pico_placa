@@ -6,18 +6,28 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collections;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.jt.backend.dbconnection.DataBaseConnection;
 import com.jt.backend.models.Consulta;
 
 
 
 public class ConsultaRepository {
+	
+	@Autowired
+	private ConsultasRepositoryInterface consultasRepository;
+	
+	
+	
+	
 	public static boolean guardarConsulta(Consulta consulta) {
-
+		
 		Connection connection = DataBaseConnection.getConnection();
 		try {
 			// Your database operations here...
-			String query = "Insert into Consulta (placa,fechaConsulta,fechaConsultada,puedeCircular) values ('"
+			String query = "Insert into consulta (placa,fechaConsulta,fechaConsultada,puedeCircular) values ('"
 					+ consulta.getPlaca() + "','" + consulta.getFechaConsulta() + "','" + consulta.getFechaConsultada()
 					+ "'," + consulta.getCircula() + ");";
 
@@ -39,11 +49,17 @@ public class ConsultaRepository {
 
 
 	}
-	public static ArrayList<Consulta> consultarHistorialConsultas() {
+	
+	
+	/*public static ArrayList<Consulta> consultarHistorialConsultas() {
 
-		 ArrayList<Consulta> consultaArreglo=new ArrayList<Consulta>();
+		ArrayList<Consulta> consultaArreglo=new ArrayList<Consulta>();
 		
-		Connection connection = DataBaseConnection.getConnection();
+		*/
+		
+		/*Connection connection = DataBaseConnection.getConnection();
+		
+		
 		try {
 			// Your database operations here...
 			String query = "Select * From Consulta;";
@@ -78,6 +94,6 @@ public class ConsultaRepository {
 			System.err.println("SQL error: " + e.getMessage());
 			return consultaArreglo;
 		}
-	}
+	*///}
 
 }
