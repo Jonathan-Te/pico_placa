@@ -35,9 +35,11 @@ public class UserController {
 	
 	@PostMapping("/login")
 	public ResponseEntity<?> logIn(@RequestBody UserDto userDto){
-		
-		
-		return ResponseEntity.ok(null);
+		InternalMessages response = this.userServices.logInProcess(userDto);
+		if(response.getId()==0) {
+			return ResponseEntity.internalServerError().body(response.getAdditionalInfo());
+		}else
+		return ResponseEntity.ok().body(response.getAdditionalInfo());
 	}
 	
 }

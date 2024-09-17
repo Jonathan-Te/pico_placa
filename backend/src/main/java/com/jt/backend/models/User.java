@@ -25,7 +25,7 @@ public class User {
 	@Setter
 	private String name;
 	
-	@Column
+	@Column(unique=true, nullable=false)
 	@Getter
 	@Setter
 	private String email;
@@ -42,22 +42,22 @@ public class User {
 	// 1: admin
 	private int profile; 	
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
 	@Getter
 	@Setter
     private List<Car> cars = new ArrayList<>();
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
 	@Getter
 	@Setter
     private List<RestrictionSchedule> restrictionSchedules = new ArrayList<>();
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
 	@Getter
 	@Setter
     private List<ExceptionSchedule> exceptionSchedules = new ArrayList<>();
 	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "id")
 	@Getter
 	@Setter
     private List<History> histories = new ArrayList<>();
