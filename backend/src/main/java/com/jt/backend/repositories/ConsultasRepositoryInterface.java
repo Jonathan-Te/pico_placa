@@ -4,6 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jt.backend.models.Consulta;
 
-public interface ConsultasRepositoryInterface extends JpaRepository<Consulta, Integer>{
+public interface ConsultasRepositoryInterface extends JpaRepository<Consulta, Long>{
 
 }

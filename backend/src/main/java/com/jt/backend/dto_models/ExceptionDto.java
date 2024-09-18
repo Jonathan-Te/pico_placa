@@ -4,7 +4,7 @@ import java.util.Date;
 import lombok.Getter;
 import lombok.Setter;
 
-public class RestrictionDto {
+public class ExceptionDto {
 		
 		
 		@Getter
