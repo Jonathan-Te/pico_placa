@@ -43,6 +43,7 @@ public class UserServices {
 			List<User> userList = this.userRepository.findUserByEmailAndPassw(userDto.getEmail(), userDto.getPassw());
 			if (userList.size()==1) {
 				SecurityUtils.setCurrentUser(userList.get(0));
+				SecurityUtils.setLogedBoolean(true);
 				internalMessages.setAdditionalInfo(userList.get(0));
 				return internalMessages;
 			}else {
@@ -56,4 +57,13 @@ public class UserServices {
 		}
 
 	}
+
+	public InternalMessages logOutProcess() {
+		SecurityUtils.setCurrentUser(null);
+		SecurityUtils.setLogedBoolean(false);
+
+		return new InternalMessages();
+
+
+	} 
 }

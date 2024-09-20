@@ -1,5 +1,7 @@
 package com.jt.backend.models;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
@@ -24,12 +26,12 @@ public class History {
 	@Column
 	@Getter
 	@Setter
-	private String queryDate;
+	private Date queryDate;
 	
 	@Column
 	@Getter
 	@Setter
-	private String queriedDate;
+	private Date queriedDate;
 	
 	@Column
 	@Getter

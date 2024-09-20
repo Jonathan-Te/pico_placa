@@ -9,5 +9,9 @@ public class SecurityUtils {
 	  
 	@Getter
 	@Setter
-	private static User currentUser;	  
+	private static User currentUser;
+	
+	@Getter
+	@Setter
+	private static boolean logedBoolean = false;
 }

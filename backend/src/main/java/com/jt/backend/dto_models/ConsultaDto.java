@@ -1,5 +1,7 @@
 package com.jt.backend.dto_models;
 
+import java.util.Date;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,15 +15,13 @@ public class ConsultaDto {
 	
 	@Getter
 	@Setter
-	private String queryDate;
+	private Date queryDate;
 	
 	@Getter
 	@Setter
-	private String queriedDate;
+	private Date queriedDate;
 	
-	@Getter
-	@Setter
-	private boolean allowed;
+	
 	
 	@Getter
 	@Setter

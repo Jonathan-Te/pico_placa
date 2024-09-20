@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jt.backend.dto_models.HistoryDto;
+
+import com.jt.backend.models.History;
 import com.jt.backend.models.InternalMessages;
 import com.jt.backend.services.HistoryServices;
 
@@ -28,9 +29,10 @@ public class HistoryController {
 	}
 
 	@PostMapping("/history")
-	public ResponseEntity<?> addHistory(@RequestBody HistoryDto historyDto){
-
-		InternalMessages response = this.historyServices.createHistory(historyDto,SecurityUtils.getCurrentUser());
+	public ResponseEntity<?> addHistory(@RequestBody History history){
+		
+		
+		InternalMessages response = this.historyServices.createHistory(history);
 
 		if (response.getId()==0) {
 			return ResponseEntity.internalServerError().body(response.getMessage());

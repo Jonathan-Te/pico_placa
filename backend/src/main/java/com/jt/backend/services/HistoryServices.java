@@ -3,7 +3,7 @@ package com.jt.backend.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.jt.backend.dto_models.HistoryDto;
+
 import com.jt.backend.models.Car;
 import com.jt.backend.models.History;
 import com.jt.backend.models.InternalMessages;
@@ -20,15 +20,7 @@ public class HistoryServices {
 		this.historyRepository=historyRepository;
 	}
 	
-	public InternalMessages createHistory(HistoryDto historyDto, User user) {
-		
-		History history= new History();
-		history.setPlate(historyDto.getPlate());
-		history.setQueryDate(historyDto.getQueryDate());
-		history.setQueriedDate(historyDto.getQueriedDate());
-		history.setAllowed(historyDto.isAllowed());
-		history.setUser(user);
-		
+	public InternalMessages createHistory(History history) {
 		
 		try {
 			this.historyRepository.save(history);
