@@ -1,0 +1,212 @@
+<div class="pantalla" style="overflow: auto;">
+    <div class="tarjeta">
+
+        <p-toast></p-toast>
+        <p-card header="Crear Restricción / Excepción">
+
+            <div class="card">
+                <p-steps [model]="items" [readonly]="true" [activeIndex]="active" />
+            </div>
+            <div *ngIf="active==0" class="verticalForm" style="margin-top: 30px;">
+                <div class="radioForm">
+                    <p-fieldset legend="Seleccione el tipo">
+                        <div class="flex flex-wrap gap-3 verticalForm">
+                            <div class="flex align-items-center ">
+                                <p-radioButton name="type" value="r" [(ngModel)]="type" inputId="restriccion" />
+                                <label for="restriccion" class="ml-2">
+                                    Restricción
+                                </label>
+                            </div>
+
+                            <div class="flex align-items-center">
+                                <p-radioButton name="type" value="e" [(ngModel)]="type" inputId="excepcion" />
+                                <label for="excepcion" class="ml-2">
+                                    Excepción
+                                </label>
+                            </div>
+                        </div>
+                    </p-fieldset>
+                </div>
+
+                <div class="radioForm">
+                    <p-fieldset legend="Seleccione la recurrencia">
+                        <div class="flex flex-wrap gap-3 verticalForm">
+                            <div class="flex align-items-center">
+                                <p-radioButton name="recurrencia" value="cs" [(ngModel)]="recurrency"
+                                    inputId="repetitivo" />
+                                <label for="repetitivo" class="ml-2">
+                                    Cada Semana
+                                </label>
+                            </div>
+
+                            <div class="flex align-items-center">
+                                <p-radioButton name="recurrencia" value="uv" [(ngModel)]="recurrency"
+                                    inputId="unFecha" />
+                                <label for="unaFecha" class="ml-2">
+                                    Fecha Particular
+                                </label>
+                            </div>
+                        </div>
+                    </p-fieldset>
+                </div>
+
+            </div>
+            <div *ngIf="active==1" class="verticalForm" style="margin-top: 30px;">
+                <div class="verticalForm">
+                    <p-fieldset legend="Seleccione la fecha" *ngIf="recurrency=='uv'">
+                        <p-calendar inputId="calendar-12h" [(ngModel)]="fecha" [showTime]="false"
+                            hourFormat="12" />
+                    </p-fieldset>
+                    <p-fieldset legend="Seleccione los Días" *ngIf="recurrency=='cs'">
+                        <div *ngFor="let day of daysArray" class="field-checkbox">
+                            <p-checkbox [(ngModel)]="selectedDays" [label]="day.name" name="group" [value]="day.key" />
+                        </div>
+                    </p-fieldset>
+                    <p-fieldset legend="Seleccione Hora inicia y Hora fin">
+                        <div style="display: flex; justify-content: space-between;">
+                            <div class="verticalForm">
+                                <label>Hora de Incio</label>
+                                <p-calendar inputId="calendar-timeonly" [(ngModel)]="startTime" [timeOnly]="true" />
+                                
+                            </div>
+                            <div class="verticalForm">
+                                <label>Hora de Fin</label>
+                                <p-calendar inputId="calendar-timeonly" [(ngModel)]="endTime" [timeOnly]="true" />
+        
+                            </div>
+                        </div>
+                       
+                        
+                    </p-fieldset>
+                    <p-fieldset legend="Seleccione el último dígito de la placa">
+                        <div *ngFor="let plate of platesArray" class="flex" style="flex-direction: row;">
+                            <p-checkbox [(ngModel)]="selectedPlates" [label]="plate.name" name="group" [value]="plate.key" />
+                        </div>
+                    </p-fieldset>
+                </div>
+            </div>
+            <div *ngIf="active==2" class="verticalForm" style="margin-top: 30px;">
+                <div class="radioForm">
+                    <p-fieldset legend="Seleccione el tipo">
+                        <div class="flex flex-wrap gap-3 verticalForm">
+                            <div class="flex align-items-center ">
+                                <p-radioButton name="type" value="r" [disabled]="true" [(ngModel)]="type" inputId="restriccion" />
+                                <label for="restriccion" class="ml-2">
+                                    Restricción
+                                </label>
+                            </div>
+
+                            <div class="flex align-items-center">
+                                <p-radioButton name="type" value="e" [disabled]="true" [(ngModel)]="type" inputId="excepcion" />
+                                <label for="excepcion" class="ml-2">
+                                    Excepción
+                                </label>
+                            </div>
+                        </div>
+                    </p-fieldset>
+                </div>
+
+                <div class="radioForm">
+                    <p-fieldset legend="Seleccione la recurrencia">
+                        <div class="flex flex-wrap gap-3 verticalForm">
+                            <div class="flex align-items-center">
+                                <p-radioButton name="recurrencia" value="cs" [disabled]="true" [(ngModel)]="recurrency"
+                                    inputId="repetitivo" />
+                                <label for="repetitivo" class="ml-2">
+                                    Cada Semana
+                                </label>
+                            </div>
+
+                            <div class="flex align-items-center">
+                                <p-radioButton name="recurrencia" value="uv" [disabled]="true" [(ngModel)]="recurrency"
+                                    inputId="unFecha" />
+                                <label for="unaFecha" class="ml-2">
+                                    Fecha Particular
+                                </label>
+                            </div>
+                        </div>
+                    </p-fieldset>
+                </div>
+
+                <div class="verticalForm">
+                    <p-fieldset legend="Seleccione la fecha" *ngIf="recurrency=='uv'">
+                        <p-calendar inputId="calendar-12h" [disabled]="true" [(ngModel)]="validacion.queriedDate" [showTime]="false"
+                            hourFormat="12" />
+                    </p-fieldset>
+                    <p-fieldset legend="Seleccione los Días" *ngIf="recurrency=='cs'">
+                        <div *ngFor="let day of daysArray" class="field-checkbox">
+                            <p-checkbox [(ngModel)]="selectedDays" [disabled]="true" [label]="day.name" name="group" [value]="day.key" />
+                        </div>
+                    </p-fieldset>
+                    <p-fieldset legend="Seleccione Hora inicia y Hora fin">
+                        <div style="display: flex; justify-content: space-between;">
+                            <div class="verticalForm">
+                                <label>Hora de Incio</label>
+                                <p-calendar inputId="calendar-timeonly" [disabled]="true" [(ngModel)]="startTime" [timeOnly]="true" />
+                                
+                            </div>
+                            <div class="verticalForm">
+                                <label>Hora de Fin</label>
+                                <p-calendar inputId="calendar-timeonly" [disabled]="true" [(ngModel)]="endTime" [timeOnly]="true" />
+        
+                            </div>
+                        </div>
+                       
+                        
+                    </p-fieldset>
+                    <p-fieldset legend="Seleccione el último dígito de la placa">
+                        <div *ngFor="let plate of platesArray" class="flex" style="flex-direction: row;">
+                            <p-checkbox [(ngModel)]="selectedPlates" [disabled]="true" [label]="plate.name" name="group" [value]="plate.key" />
+                        </div>
+                    </p-fieldset>
+                </div>
+
+            </div>
+
+
+            <ng-template pTemplate="footer">
+                <div class="footerBotones">
+                    <p-button label="<- Atras" severity="secondary" [disabled]="active==0"
+                        (onClick)="active=active-1" />
+                    <p-button label="Siguiente ->" [disabled]="!validateForm()" severity="secondary" (onClick)="active=active+1" *ngIf="active!=2" />
+                    <p-button label="Guardar"  severity="primary" (onClick)="guardarRestriccionExcepcion();"
+                        *ngIf="active==2" />
+                </div>
+
+            </ng-template>
+        </p-card>
+    </div>
+
+    <div class="tarjeta">
+        <p-card header="Restricciones / Excepciones">
+            <p class="m-0">
+                <p-table [value]="totalRestrictionException" [tableStyle]="{ 'min-width': '50rem' }">
+
+                    <ng-template pTemplate="header">
+                        <tr class="headerTabla">
+                            <th>Fecha / Día</th>
+                            <th>Hora Inicio</th>
+                            <th>Hora Fin</th>
+                            <th>Digitos de Placas</th>
+                            <th>Circula</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-item>
+                        <tr class="bodyTabla">
+                            <td>{{item.fechaDia}}</td>
+                            <td>{{item.horaInicio }}</td>
+                            <td>{{item.horaFin }}</td>
+                            <td>{{item.digitoPlacas }}</td>
+                            <td>
+                                <p-chip label="NO" [style]="{'background-color': '#dc2626','width': '50px'}" *ngIf="item.tipo=='r'"/>
+                                <p-chip label="SI" [style]="{'background-color': '#22c55e','width': '50px'}" *ngIf="item.tipo=='e'"/>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p>
+        </p-card>
+    </div>
+</div>
+
+

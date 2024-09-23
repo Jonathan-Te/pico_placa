@@ -1,0 +1,13 @@
+<div>
+    <div class="logOut">
+        <p-button label="Cerrar Sesión" severity="danger" (onClick)="logOut()"  /> 
+    </div>
+    <p-tabView>
+        <p-tabPanel *ngIf="authenticationServiceValue.isLogged" header="Administración">
+           <app-administracion></app-administracion>
+        </p-tabPanel>
+        <p-tabPanel header="Validación de Pico Y Placa">
+           <app-consulta></app-consulta> 
+        </p-tabPanel>
+    </p-tabView>
+</div>

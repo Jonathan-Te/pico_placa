@@ -19,6 +19,7 @@ import com.jt.backend.repositories.HistoryRepository;
 import com.jt.backend.repositories.RestrictionScheduleRepository;
 
 import utils.DateUtils;
+import utils.MessageUtils;
 import utils.SecurityUtils;
 
 @Service
@@ -46,53 +47,60 @@ public class ValidationServices {
 		history.setPlate(consultaDto.getPlate());
 		history.setQueriedDate(consultaDto.getQueriedDate());
 		history.setQueryDate(consultaDto.getQueryDate());
-				
-		InternalMessages internalMessages =new InternalMessages();
-		List<RestrictionSchedule> restrictionScheduleList = new ArrayList<>();
-		try {
-			restrictionScheduleList=this.restrictionScheduleRepository.findAll();
+		if (consultaDto.getQueryDate().before(consultaDto.getQueriedDate())) {
+			InternalMessages internalMessages =new InternalMessages();
+			List<RestrictionSchedule> restrictionScheduleList = new ArrayList<>();
+			try {
+				restrictionScheduleList=this.restrictionScheduleRepository.findAll();
 
-		}catch(Exception e) {
-			return new InternalMessages(0,"Error consultando las restricciones en la Base de datos",e.toString());
-		}
-		
-		
-		List<ExceptionSchedule> exceptionScheduleList = new ArrayList<>();
-		try {
-			exceptionScheduleList=this.exceptionScheduleRepository.findAll();
-
-		}catch(Exception e) {
-			return new InternalMessages(0,"Error consultando las excepciones en la Base de datos",e.toString());
-		}
-
-		if(this.applyRestriction(consultaDto, restrictionScheduleList)){
-			if(this.applyException(consultaDto, exceptionScheduleList)) {
-				//puede circular aunque exista una restriccion
-				if(SecurityUtils.isLogedBoolean()) {
-					history.setUser(user);
-					history.setAllowed(true);
-					historyRepository.save(history);
-				}
-				return new InternalMessages(1,"Se puede cirular",this.validationObject);
-			}else {
-				//no puede circular existe una restriccion y no exciste una excepcion
-				if(SecurityUtils.isLogedBoolean()) {
-					history.setUser(user);
-					history.setAllowed(false);
-					historyRepository.save(history);
-				}
-				return new InternalMessages(1,"No puede cirular",this.validationObject);
+			}catch(Exception e) {
+				return new InternalMessages(0,"Error consultando las restricciones en la Base de datos",e.toString());
 			}
-		}else {
-			//no existe restricciones
-			if(SecurityUtils.isLogedBoolean()) {
-				history.setUser(user);
-				history.setAllowed(true);
-				historyRepository.save(history);
-			}
-			return new InternalMessages(1,"Se puede cirular",this.validationObject);
 			
+			
+			List<ExceptionSchedule> exceptionScheduleList = new ArrayList<>();
+			try {
+				exceptionScheduleList=this.exceptionScheduleRepository.findAll();
+
+			}catch(Exception e) {
+				return new InternalMessages(0,"Error consultando las excepciones en la Base de datos",e.toString());
+			}
+
+			if(this.applyRestriction(consultaDto, restrictionScheduleList)){
+				if(this.applyException(consultaDto, exceptionScheduleList)) {
+					//puede circular aunque exista una restriccion
+					history.setAllowed(true);
+					if(SecurityUtils.isLogedBoolean()) {
+						history.setUser(user);
+						
+						historyRepository.save(history);
+					}
+					return new InternalMessages(11,MessageUtils.setMessageFromResult(history, validationObject),this.validationObject);
+				}else {
+					//no puede circular existe una restriccion y no exciste una excepcion
+					history.setAllowed(false);
+					if(SecurityUtils.isLogedBoolean()) {
+						history.setUser(user);
+						
+						historyRepository.save(history);
+					}
+					return new InternalMessages(10,MessageUtils.setMessageFromResult(history, validationObject),this.validationObject);
+				}
+			}else {
+				//no existe restricciones
+				history.setAllowed(true);
+				if(SecurityUtils.isLogedBoolean()) {
+					history.setUser(user);
+					
+					historyRepository.save(history);
+				}
+				return new InternalMessages(11,MessageUtils.setMessageFromResult(history, validationObject),this.validationObject);
+				
+			}
+		} else {
+			return new InternalMessages(1,"La fecha de consulta debe ser mayor o igual a la actual",this.validationObject);
 		}
+		
 	}
 
 

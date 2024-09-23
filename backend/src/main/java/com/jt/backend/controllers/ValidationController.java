@@ -34,7 +34,7 @@ public class ValidationController {
 		if (internalMessages.getId()==0) {
 			return ResponseEntity.internalServerError().body(internalMessages.getMessage());
 		}else {
-			return ResponseEntity.ok().body(internalMessages.getMessage());     
+			return ResponseEntity.ok().body(internalMessages);     
 		}
 	}
 

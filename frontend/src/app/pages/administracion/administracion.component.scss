@@ -1,0 +1,87 @@
+.pantalla {
+    display: flex;
+    padding: 20px;
+    justify-content: center;
+    @media (max-width:1250px) {
+        flex-direction: column;
+    }
+
+    .tarjeta {
+        margin: 2.5% 1%;
+        
+
+        .camposPF{
+            display: flex;
+            justify-content: center; 
+            align-items: center;
+            flex-direction: column;
+            min-width: fit-content;
+            width: 100%;
+
+            @media (max-width:1250px) and (min-width:900px) {
+                flex-direction: row!important;
+                justify-content: space-between;
+                padding-right: 2%;
+                padding-left: 2%;
+            }
+            
+            .p-float-label{
+                margin-top: 35px;
+            }
+        }
+
+        .headerTabla{
+            th{
+                padding: 7px 0px!important;
+                width: fit-content!important;
+            }
+            
+            
+        }
+
+        .bodyTabla{
+            td{
+                padding: 7px 0px!important;
+                width: fit-content!important;
+
+                
+            }
+            .btn{
+                width: 45px!important;
+                text-align: center!important;
+                padding: 1px!important;
+            }
+
+            
+            
+        }
+        
+        
+    }
+    .dialogo{
+        width: 150px!important;
+    }
+    
+}
+
+.footerBotones{
+    display: flex;
+    justify-content: flex-end; 
+    width: 100%;
+    gap: 10px;
+}
+
+.verticalForm {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 10px;
+
+}
+
+.radioForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    gap: 4px;
+}

@@ -53,18 +53,18 @@ Crear la base de datos con el archivo CreacioBD.mysql.
 1. Descargar la imagen para el contenedor.
    
         docker pull mysql
-3. Crear el contenedor mysql
+2. Crear el contenedor mysql
 
         docker run -p 3306:3306 --name picoplaca_mysql_db -e MYSQL_ROOT_PASSWORD=root -d mysql:latest
-5. Abrir el bash del contenedor.
+3. Abrir el bash del contenedor.
 
         docker exec -it picoplaca_mysql_db bash
-7. Entrar a mysql
+4. Entrar a mysql
 
         mysql -u root -p
         la clave es: root
-9. Ejecutar el contenido del archivo CreacionBD.mysql.
-        Copiar y pegar el contenido.
+5. Ejecutar el comando para la creacion de la base de datos.
+        create database RestriccionVehicular;
 
 ### Como ejecutar SpringBoot :
    En el directorio backend/ ejecutar el siguiente comando
@@ -77,3 +77,19 @@ Crear la base de datos con el archivo CreacioBD.mysql.
     npm i
     ng serve --open
 
+## Cambios
+
+Ya no se requieren los scripts de la creación de las tablas de la base de datos.
+Ni cargar datos a la base de datos desde script sql.
+
+Ahora la base se crea con JPA e Hibernate
+
+La aplicacion cuenta con un manejo básico de usuarios, lo que permite registrar el historial de consultas de acuerdo al usuario.
+
+Además cuando un ussario inicia sesion puede acceder a la pestaña de administración y puede crear las restricciones y excepciones.
+
+Para poder comparar los nuevos cambios, se inicio los trabajos en el siguiente repositorio:
+
+https://github.com/Jonathan-Te/pico_y_placa_v.2.0
+
+Luego se copió la carpeta al repositorio original

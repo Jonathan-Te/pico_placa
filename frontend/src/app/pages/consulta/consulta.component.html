@@ -1,0 +1,73 @@
+<div class="pantalla">
+    <div class="tarjeta">
+        <p-toast></p-toast>
+        <p-card header="Validación de Pico y Placa">
+            <div class="camposPF">
+                <span class="p-float-label">
+                    <p-inputMask id="placa" mask="aaa-9999" [(ngModel)]="validacion.plate" placeholder="AAA-9999"
+                        [style]="{'text-transform': 'uppercase'}"></p-inputMask>
+                    <label for="placa">Placa:</label>
+                </span>
+                <span class="p-float-label">
+                    <p-calendar inputId="calendar-12h" [(ngModel)]="validacion.queriedDate" [showTime]="true"
+                        hourFormat="12" />
+                </span>
+            </div>
+
+            <ng-template pTemplate="footer">
+                <div class="footerBotones">
+                    <p-button label="Validar" [disabled]="!validateForm()" (onClick)="validarCirculacion()" />
+                    <p-button label="Limpiar" severity="secondary" (onClick)="limpiarCampos()" />
+                </div>
+
+            </ng-template>
+        </p-card>
+    </div>
+
+    <div class="tarjeta" *ngIf="authenticationServiceValue.isLogged">
+        <p-card header="Historial de Consultas">
+            <p class="m-0">
+                <p-table [value]="listaHistorial" [tableStyle]="{ 'min-width': '50rem' }">
+
+                    <ng-template pTemplate="header">
+                        <tr class="headerTabla">
+                            <th>Placa</th>
+                            <th>Fecha Validada</th>
+                            <th>Circula</th>
+                            <th>Fecha Consulta</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-consulta>
+                        <tr class="bodyTabla">
+                            <td>{{ consulta.placa}}</td>
+                            <td>{{ consulta.fechaConsultada }}</td>
+                            <td>
+                                <p-chip label="NO" [style]="{'background-color': '#dc2626','width': '50px'}"
+                                    *ngIf="!consulta.circula" />
+                                <p-chip label="SI" [style]="{'background-color': '#22c55e','width': '50px'}"
+                                    *ngIf="consulta.circula" />
+                            </td>
+
+                            <td>{{ consulta.fechaConsulta }}</td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p>
+        </p-card>
+    </div>
+</div>
+
+
+<p-dialog header="Validación realizada" [(visible)]="mostrarMernsaje" [style]="{width: '50vw'}" [closable]="false"
+    [closeOnEscape]="false">
+    <p-chip label="NO" [style]="{'background-color': '#dc2626','width': '50px'}" *ngIf="!validationResponse?.circula" />
+    <p-chip label="SI" [style]="{'background-color': '#22c55e','width': '50px'}" *ngIf="validationResponse?.circula" />
+    <p [innerHTML]="validationResponse?.mensaje">
+    </p>
+    <div class="footerBotones">
+        <p-button label="Aceptar" severity="primary" (onClick)="limpiarCampos();ocultarMostrarMensaje()" />
+        <p-button label="Corregir" severity="secondary" (onClick)="ocultarMostrarMensaje();" />
+
+    </div>
+
+</p-dialog>

@@ -34,7 +34,7 @@ public class RestrictionController {
 		if(response.getId()==0) {
 			return ResponseEntity.internalServerError().body(response.getAdditionalInfo());
 		}else
-			return ResponseEntity.ok().body(response.getMessage());
+			return ResponseEntity.ok().body(response.getAdditionalInfo());
 	}
 
 	@GetMapping("/restriction")

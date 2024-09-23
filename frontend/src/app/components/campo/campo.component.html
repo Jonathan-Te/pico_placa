@@ -1,0 +1,13 @@
+<div class="flex flex-column gap-2 " style="width: 100%;">
+    <label for="{{id}}">{{etiqueta}}</label>
+    <input  
+        pInputText 
+        style="width: 100%;"
+        id="{{id}}" 
+        type="{{tipodecampo}}"
+        [(ngModel)]="textoCampo" 
+        (ngModelChange)="onTextoCampoChange($event)"/>
+    <small id="{{id}}-help">
+        {{ayuda}}
+    </small>
+</div>

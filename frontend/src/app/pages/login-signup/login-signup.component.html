@@ -1,0 +1,108 @@
+
+<div style="position: absolute; top: 0; right: 0; padding: 10px;">
+    <p-button label="Continuar como invitado" (onClick)="validatedNoLogin()"/>
+</div>
+
+
+<div class="pantalla">
+    <div class="jt-card jt-horizontal" style="max-width: 70%; max-height: 75%;">
+        <div style="max-width: 50%; overflow: hidden;">
+            <img src="https://th.bing.com/th/id/OIG3.xnOdzX5cfBJ0qoa50xkp?w=1024&h=1024&rs=1&pid=ImgDetMain" />
+        </div>
+        <div class="verticalForm" style=" padding: 10px; min-width: 50%;" *ngIf="showLogin" >
+
+            <div class="verticalForm" style="gap: 35px; margin-top: 40px;">
+                <div class="titulo" style="align-self: flex-start;">
+                    Iniciar Sesion
+                </div>
+                <div>
+                    <jt-campo (textoCampoChange)="login.email=$event" etiqueta="Correo Electronico" ayuda="Ingresa tu correo" tipodecampo="mail"
+                        [textoCampo]="login.email" id="email">
+
+                    </jt-campo>
+                </div>
+                <div>
+                    <jt-campo (textoCampoChange)="login.passw=$event" etiqueta="Clave" ayuda="Ingrese la clave" [textoCampo]="login.passw" id="clave"
+                        tipodecampo="password">
+
+                    </jt-campo>
+                </div>
+                <div style="align-self: flex-start;">
+                    <p-checkbox [(ngModel)]="login.recordarme" [binary]="true" inputId="recuerdame" />
+                    <label>
+                        Recordarme
+                    </label>
+                </div>
+
+                <div style="display: flex; align-items: center;">
+                    <labeL>No tienes cuenta?.. </labeL>
+                    <p-button label="Registrate Aqui !!" [link]="true" (onClick)="cambiarLoginsignup()"/>
+                </div>
+
+
+
+            </div>
+
+
+
+            <div>
+                <p-button label="Ingresar" (onClick)="execLogIn()"/>
+            </div>
+        </div>
+
+        <div class="verticalForm" style=" padding: 10px; min-width: 50%;" *ngIf="!showLogin" >
+
+            <div class="verticalForm" style="gap: 15px; margin-top: 40px;">
+                <div class="titulo" style="align-self: flex-start;">
+                    Crea tu cuenta
+                </div>
+                <div>
+                    <jt-campo (textoCampoChange)="signup.name=$event" etiqueta="Nombres" ayuda="Ingresa tu nombre" tipodecampo="text"
+                        [textoCampo]="signup.name" id="nombre">
+
+                    </jt-campo>
+                </div>
+                <div>
+                    <jt-campo (textoCampoChange)="signup.email=$event" etiqueta="Correo Electronico" ayuda="Ingresa tu correo" tipodecampo="mail"
+                        [textoCampo]="signup.email" id="email">
+
+                    </jt-campo>
+                </div>
+                <div>
+                    <jt-campo (textoCampoChange)="signup.passw=$event" etiqueta="Clave" ayuda="crea tu clave" [textoCampo]="signup.passw" id="clave"
+                        tipodecampo="password">
+
+                    </jt-campo>
+                </div>
+                <div>
+                    <jt-campo (textoCampoChange)="signup.confirmPassword=$event" etiqueta="Confirmar Clave" ayuda="vuelve a ingresar tu clave"
+                        [textoCampo]="signup.confirmPassword" id="confirmarclave" tipodecampo="password">
+
+                    </jt-campo>
+                </div>
+                <div style="align-self: flex-start;">
+                    <p-checkbox [(ngModel)]="signup.recuerdame" [binary]="true" inputId="recuerdame" />
+                    <label>
+                        Recordarme
+                    </label>
+                </div>
+
+
+            </div>
+            <div style="display: flex; align-items: center;">
+                <labeL>Ya tienes cuenta?.. </labeL>
+                <p-button label="Ingresa Aqui !!" [link]="true" (onClick)="cambiarLoginsignup()"/>
+            </div>
+
+
+
+            <div>
+                <p-button label="Registrar" (onClick)="execSignUp()"/>
+            </div>
+        </div>
+
+
+
+    </div>
+
+</div>
